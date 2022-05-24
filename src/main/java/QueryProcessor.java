@@ -33,8 +33,6 @@ public class QueryProcessor {
         qp.processQueries();
 
         // Note that you are expected to create additional classes and methods
-        // hello test commit again
-        System.out.println("helloworld");
 
     }
 
