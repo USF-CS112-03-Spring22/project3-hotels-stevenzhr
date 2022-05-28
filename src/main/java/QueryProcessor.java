@@ -1,4 +1,6 @@
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class QueryProcessor {
     // FILL IN CODE:
@@ -19,18 +21,23 @@ public class QueryProcessor {
             // FILL IN CODE to read and parse user's query and print a response
 
         }
+        sc.close();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // FILL IN CODE:
         String hotelFilename = args[0]; // the path to the json file with hotels is given as a command line argument
 
-        // Create an instance of the class that stores hotels and load hotels from the json file
 
+        // Create an instance of the class that stores hotels and load hotels from the json file
+        HashMap<String, HotelInfo> HotelList = HotelsUtil.getHotelListFromJson(hotelFilename);
+        // Test hashmap
+        System.out.println(HotelList.get("CS112 Hotel"));
+        
         // Add a parameter to the QueryProcessor constructor:
         // pass a reference to your class that contains hotels
-        QueryProcessor qp = new QueryProcessor();
-        qp.processQueries();
+        // QueryProcessor qp = new QueryProcessor();
+        // qp.processQueries();
 
         // Note that you are expected to create additional classes and methods
 
