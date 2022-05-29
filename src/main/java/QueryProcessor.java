@@ -5,8 +5,11 @@ import java.util.HashMap;
 public class QueryProcessor {
     // FILL IN CODE:
     // Add instance variables(s) as needed
-
-    // Add a constructor - it should take a parameter - a reference to the class that stores hotels
+    private HashMap<String, HotelInfo> hotelList;
+    // Constructor - it should take a parameter - a reference to the class that stores hotels
+    public QueryProcessor(HashMap<String, HotelInfo> hotelList) {
+        this.hotelList = hotelList;
+    }
 
     public void processQueries() {
         System.out.println("Enter a query:");
@@ -24,20 +27,18 @@ public class QueryProcessor {
         sc.close();
     }
 
+
     public static void main(String[] args) throws IOException {
         // FILL IN CODE:
         String hotelFilename = args[0]; // the path to the json file with hotels is given as a command line argument
 
-
         // Create an instance of the class that stores hotels and load hotels from the json file
-        HashMap<String, HotelInfo> HotelList = HotelsUtil.getHotelListFromJson(hotelFilename);
-        // Test hashmap
-        System.out.println(HotelList.get("CS112 Hotel"));
+        HashMap<String, HotelInfo> hotelList = HotelsUtil.getHotelListFromJson(hotelFilename);
         
         // Add a parameter to the QueryProcessor constructor:
         // pass a reference to your class that contains hotels
-        // QueryProcessor qp = new QueryProcessor();
-        // qp.processQueries();
+        QueryProcessor qp = new QueryProcessor(hotelList);
+        qp.processQueries();
 
         // Note that you are expected to create additional classes and methods
 

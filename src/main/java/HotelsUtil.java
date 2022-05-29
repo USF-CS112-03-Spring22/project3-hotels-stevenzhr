@@ -13,7 +13,12 @@ import java.util.List;
 
 
 public class HotelsUtil {
-    // Parse Json data, return Hotel HashMap
+    /**
+     * Parse Json data, return Hotel HashMap
+     * @param hotelFilename JSON file path
+     * @return A HashMap contains all hotels object
+     * @throws IOException
+     */
     public static HashMap<String, HotelInfo> getHotelListFromJson(String hotelFilename) throws IOException {
         HashMap<String, HotelInfo> HotelList = new HashMap<String, HotelInfo>();
         // Initial GSON builder
@@ -26,7 +31,7 @@ public class HotelsUtil {
             HotelList hotels = gson.fromJson(reader, HotelList.class); 
             // Put each hotel object into HashMap
             for (HotelInfo hotel : hotels.sr) {
-                HotelList.put(hotel.getName(), hotel);
+                HotelList.put(hotel.getId(), hotel);
             }
         }
         return HotelList;
