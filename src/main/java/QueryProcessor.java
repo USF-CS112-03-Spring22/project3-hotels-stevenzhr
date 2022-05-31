@@ -3,6 +3,8 @@ import java.util.Scanner;
 import java.util.HashMap;
 import java.util.List;
 
+
+
 public class QueryProcessor {
     // FILL IN CODE:
     // Add instance variables(s) as needed
@@ -37,9 +39,11 @@ public class QueryProcessor {
                     System.out.println("reserve hotelId date numberOfNights");
                     break;
                 case "review":
-                    System.out.println("review hotelId rating username");
+                    //System.out.println("review hotelId rating username");
+                    reviewHotel(querys);
                     break;
                 default:
+                    System.out.println("Invalid command. ");
                     break;
             }
             query = sc.nextLine();
@@ -47,17 +51,13 @@ public class QueryProcessor {
         sc.close();
     }
 
-    public static void printLines(List<String> sout_strs) {
-        for (String str : sout_strs) {
-            System.out.println(str);
-        }
-    }
+
     /**
      * Shwo all hotel's name, ID and address. 
      */
-    public static void showHotels() {
+    public void showHotels() {
         for (HotelInfo hotel : hotelList.values()) {
-            printLines(HotelsUtil.getHotelInfo(hotel, false));
+            utilities.printLines(HotelsUtil.getHotelInfo(hotel, false));
             System.out.println();
         }
     }
@@ -66,11 +66,40 @@ public class QueryProcessor {
      * Search hotel by name, print out hotel's information and reviews. 
      * @param hotelName
      */
-    public static void searchHotel(String hotelName) {
+    public void searchHotel(String hotelName) {
         HotelInfo hotel = hotelList.get(HotelsUtil.getHotelIDbyName(hotelList, hotelName));
         if (hotel != null) {
             List<String> sout_strs = HotelsUtil.getHotelInfo(hotel, true);
-            printLines(sout_strs);
+            utilities.printLines(sout_strs);
+        }
+        else
+        {
+            System.out.println("No such hotel.");
+        }
+    }
+
+    /**
+     * Parse the input strings. Base on the input add a new review for the hotel. 
+     * @param strings
+     */
+    public void reviewHotel(String[] strings) {
+        // Verify the syntax. Check rating is a number. 
+        if (!utilities.isNumeric(strings[2])) {
+            System.out.println("Invalid command. ");
+            return;
+        }
+        // Get guest name in Strings
+        String guestName = strings[3];
+        for (int i = 4; i < strings.length; i++) {
+            guestName = guestName.concat(" ").concat(strings[i]);
+        }
+        // Get hotel by hotel ID
+        HotelInfo hotel = hotelList.get(strings[1]);
+        if (hotel != null) {
+            System.out.println("Enter the text of the review:");
+            Scanner sc = new Scanner(System.in);
+            String review = sc.nextLine();
+            hotel.addReview(guestName, utilities.getCurrentDate(), strings[2], review);
         }
         else
         {
