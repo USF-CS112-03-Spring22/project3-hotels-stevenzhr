@@ -15,7 +15,7 @@
             "name": "Launch QueryProcessor",
             "request": "launch",
             "mainClass": "QueryProcessor",
-            "args": "src/main/resources/hotels-short.json",
+            "args": "src/main/resources/hotels.json",
             "projectName": "project3Hotels-CS112S22"
         }
     ]

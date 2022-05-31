@@ -7,7 +7,7 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +35,50 @@ public class HotelsUtil {
             }
         }
         return HotelList;
+    }
+    /**
+     * Return a list strings contain hotel's information. Use showReviews to add reviews into the list. 
+     * @param hotel
+     * @param showReviews
+     * @return List of String for print use. Eash string indicate a line to print out. 
+     */
+    public static List<String> getHotelInfo(HotelInfo hotel, boolean showReviews) {
+        List<String> sout_strs = new ArrayList<>();
+        // add first line text: Hotel name + : + hotel ID
+        sout_strs.add(new StringBuilder().append(hotel.getName()).append(": ").append(hotel.getId()).toString());
+        // add second line text: Hotel address
+        sout_strs.add(new StringBuilder().append(hotel.getCity()).append(" ").append(hotel.getAddress()).toString());
+        // when showReviews is true and review list not empty, add reviews into return list.  
+        if (hotel.getReviewList() != null) {
+            if (showReviews && !hotel.getReviewList().isEmpty()) {
+                sout_strs.add("Reviews:");
+                // get review list
+                List<Review> reviewList = hotel.getReviewList();
+                for (Review review : reviewList) {
+                    // First line of review: Guest name + date
+                    sout_strs.add(new StringBuilder()
+                            .append("Review by ").append(review.getGuestName())
+                            .append(" on ").append(review.getDate()).toString());
+                    // Second line of review: Rating
+                    sout_strs.add(new StringBuilder().append("Rating: ").append(review.getRating()).toString());
+                    // Third line of review: Review text
+                    sout_strs.add(review.getReview());
+                    sout_strs.add("-----------------------------------");
+                }
+            }
+        }        
+        return sout_strs;
+    }
+
+    
+
+    public static String getHotelIDbyName(HashMap<String, HotelInfo> hotelList, String hotelName) {
+        for (HotelInfo hotel : hotelList.values()) {
+            if (hotel.getName().equals(hotelName)) {
+                return hotel.getId();
+            }
+        }
+        return null;
     }
 }
 

@@ -8,6 +8,22 @@ public class Review {
     private final String Rating;
     private final String review;
     
+    public String getGuestName() {
+        return guestName;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getRating() {
+        return Rating;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
     /**
      * Print a review.
      * @return a string array contain 3 strings each represent a printline text. 

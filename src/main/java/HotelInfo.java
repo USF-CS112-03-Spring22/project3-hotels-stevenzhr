@@ -23,6 +23,15 @@ public class HotelInfo {
     public String getName() {
         return f;
     }
+    public String getAddress() {
+        return ad;
+    }
+    public String getCity() {
+        return ci;
+    }
+    public List<Review> getReviewList() {
+        return reviewList;
+    }
 
     public HotelInfo(String f, String id, String pr, String ci, String ad) {
         this.f = f;
@@ -43,6 +52,9 @@ public class HotelInfo {
      */
     public void addReview(String guestName, String date, String rating, String review) {
         // Later Upgrade: add info verification process. 
+        if (reviewList == null) {
+            this.reviewList = new ArrayList<>();
+        }
         reviewList.add(new Review(guestName, date, rating, review));
     }
 
@@ -53,6 +65,9 @@ public class HotelInfo {
      * @return operation status
      */
     public boolean addReserve(String date) {
+        if (reserveList == null) {
+            reserveList = new ArrayList<>();
+        }
         if (reserveList.contains(date)) {
             return false;
         }
