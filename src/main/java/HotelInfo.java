@@ -59,22 +59,26 @@ public class HotelInfo {
     }
 
     /**
-     * Try to add one day reserve into reserveList. If success return true, else return false. 
+     * Try to add a list of reserve into reserveList. If success return true, else return false. 
      * <p><b>Date type has to be verified before pass to the method.</b></p>
      * @param date
      * @return operation status
      */
-    public boolean addReserve(String date) {
+    public boolean addReserve(String[] reserveDates) {
         if (reserveList == null) {
             reserveList = new ArrayList<>();
         }
-        if (reserveList.contains(date)) {
-            return false;
+        // Detection date conflict
+        for (String date : reserveDates) {
+            if (reserveList.contains(date)) {
+                return false;
+            }
         }
-        else {
+        // Add reserve information
+        for (String date : reserveDates) {
             reserveList.add(date);
-            return true;
         }
+        return true;
     }
 
     @Override

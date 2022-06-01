@@ -36,10 +36,9 @@ public class QueryProcessor {
                     searchHotel(hotelName);
                     break;
                 case "reserve":
-                    System.out.println("reserve hotelId date numberOfNights");
+                    reserveHotel(querys);
                     break;
                 case "review":
-                    //System.out.println("review hotelId rating username");
                     reviewHotel(querys);
                     break;
                 default:
@@ -84,7 +83,7 @@ public class QueryProcessor {
      */
     public void reviewHotel(String[] strings) {
         // Verify the syntax. Check rating is a number. 
-        if (!utilities.isNumeric(strings[2])) {
+        if (strings.length != 4 || !utilities.isNumeric(strings[2])) {
             System.out.println("Invalid command. ");
             return;
         }
@@ -104,7 +103,54 @@ public class QueryProcessor {
         else
         {
             System.out.println("No such hotel.");
+            return;
         }
+    }
+
+    public void reserveHotel(String[] strings) {
+        // Command: 
+        //     String[0] = reserve; String[1] = hotelId
+        //     String[2] = date;    String[3] = numberOfNight
+
+        // Verify the syntax. Check numberOfNight is a number. 
+        if (strings.length != 4 || !utilities.isNumeric(strings[3])) {
+            System.out.println("Invalid command. ");
+            return;
+        }
+        // Verify the date format. 
+        if (!utilities.isValidDate(strings[2])) {
+            System.out.println("Invalid date. ");
+            return;
+        }
+        // Get reserve date list. 
+        String[] reserveDates = utilities.calculateDate(strings[2], strings[3]);
+        // Get hotel by hotel ID
+        HotelInfo hotel = hotelList.get(strings[1]);
+        if (hotel != null) {
+            // Try to add reserve information into hotelInfo obj.
+            if (hotel.addReserve(reserveDates)) {
+                // Success add reservations. Print result.
+                String sout_str = new StringBuilder().append("[").append(reserveDates[0]).toString();
+                for (int i = 1; i < reserveDates.length; i++) {
+                    sout_str = sout_str.concat(", ").concat(reserveDates[i]);
+                }
+                sout_str = sout_str.concat("]");
+                System.out.println(sout_str);
+                System.out.println("Reservation successful");
+                return;
+            }
+            else
+            {
+                System.out.println("The hotel is not available on some of these days");
+                return;
+            }
+        }
+        else
+        {
+            System.out.println("No such hotel.");
+            return;
+        }
+
     }
 
     public static void main(String[] args) throws IOException {
@@ -113,12 +159,6 @@ public class QueryProcessor {
 
         // Create an instance of the class that stores hotels and load hotels from the json file
         HashMap<String, HotelInfo> hotelList = HotelsUtil.getHotelListFromJson(hotelFilename);
-
-
-        hotelList.get("9491356").addReview("Steven", "05-2022", "4", "Just so so. Breakfast is nice");
-        hotelList.get("9491356").addReview("Luna", "05-2022", "1", "I need cooooooffeeeee");
-
-
 
         // Add a parameter to the QueryProcessor constructor:
         // pass a reference to your class that contains hotels
